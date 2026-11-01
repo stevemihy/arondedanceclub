@@ -152,8 +152,12 @@ FORM_JS = '''
   f.addEventListener('submit',function(ev){ev.preventDefault();
     var ok=f.querySelector('.form-ok'); if(!f.checkValidity()){f.reportValidity();return;}
     ok.hidden=false; ok.scrollIntoView({block:'nearest'});});
-  var tb=document.querySelector('.theme-btn');
-  if(tb){tb.addEventListener('click',function(){var r=document.documentElement;var cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');});}
+  var root=document.documentElement, sw=document.querySelector('.theme-switch');
+  function paint(){var cur=root.getAttribute('data-theme');if(sw)sw.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.set===cur?'true':'false');});}
+  function apply(th,save){if(th!=='light'&&th!=='dark')return;root.setAttribute('data-theme',th);if(save){try{localStorage.setItem('adc-theme',th);}catch(e){}}paint();}
+  var q=new URLSearchParams(location.search).get('theme'), st=null; try{st=localStorage.getItem('adc-theme');}catch(e){}
+  if(q==='light'||q==='dark')apply(q,false); else if(st==='light'||st==='dark')apply(st,false); else paint();
+  if(sw)sw.addEventListener('click',function(ev){var x=ev.target.closest('button[data-set]');if(x)apply(x.dataset.set,true);});
   var b=document.querySelector('.menu-btn'), n=document.querySelector('.site-nav');
   if(b&&n){b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});
     n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false');});});}
@@ -249,13 +253,14 @@ p{margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ivoire)}
 .site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--ivoire) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--filet)}
 .site-header .wrap{display:flex;align-items:center;gap:1rem;min-height:72px}
-.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:var(--encre);margin-right:auto}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:var(--encre);margin-right:auto;white-space:nowrap}
 .brand img{width:44px;height:44px;border-radius:50%} .brand b{font-family:var(--f-display);font-size:1.35rem;font-weight:600;letter-spacing:.01em} .brand small{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.5rem} .site-nav a{color:var(--encre);text-decoration:none;font-weight:600;font-size:.95rem} .site-nav a:hover{color:var(--rouge)}
 .menu-btn{display:none;background:none;border:1.5px solid var(--encre);color:var(--encre);border-radius:8px;padding:.45rem .7rem;font:inherit;cursor:pointer}
-.theme-btn{background:none;border:1.5px solid var(--filet);color:var(--encre);border-radius:999px;width:38px;height:38px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
-@media (max-width:900px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--papier);border-bottom:1px solid var(--filet);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
+.theme-switch{display:inline-flex;border:1.5px solid var(--filet);border-radius:999px;padding:2px;flex:none;background:var(--papier)} .theme-switch button{background:none;border:0;color:var(--mute);font:inherit;font-size:.82rem;font-weight:600;padding:.35rem .7rem;border-radius:999px;cursor:pointer} .theme-switch button[aria-pressed="true"]{background:var(--encre);color:var(--ivoire)}
+@media (max-width:1100px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--papier);border-bottom:1px solid var(--filet);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.9rem} .menu-btn{display:inline-block} .header-cta{display:none}}
+.header-cta,.site-nav a{white-space:nowrap}
 /* hero */
 .hero{padding-block:3.5rem 4rem}
 .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
@@ -350,7 +355,7 @@ def render_v1(artifact=False, cfg=None):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/club/logo-couleurs.png" alt="" width="44" height="44"><span><b>{e(S["court"])}</b><small>Couthuin · ASBL</small></span></a>
-    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
+    <div class="theme-switch" role="group" aria-label="Thème d'affichage"><button type="button" data-set="light" aria-pressed="false">Clair</button><button type="button" data-set="dark" aria-pressed="false">Sombre</button></div>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul>{nav_links()}</ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">Premier cours gratuit</a>
@@ -484,13 +489,14 @@ h2{font-size:clamp(2.2rem,5vw,3.6rem)} h3{font-size:1.4rem} p{margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--nuit)}
 .site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--nuit) 80%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--ligne)}
 .site-header .wrap{display:flex;align-items:center;gap:1.25rem;min-height:74px}
-.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:var(--craie);margin-right:auto}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:var(--craie);margin-right:auto;white-space:nowrap}
 .brand img{width:42px;height:42px} .brand b{font-family:var(--f-display);font-size:1.3rem;font-weight:500;letter-spacing:.02em}
-.site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.6rem} .site-nav a{color:var(--craie-2);text-decoration:none;font-weight:600;font-size:.86rem;letter-spacing:.1em;text-transform:uppercase} .site-nav a:hover{color:var(--or)}
+.site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.3rem} .site-nav a{color:var(--craie-2);text-decoration:none;font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase} .site-nav a:hover{color:var(--or)}
 .menu-btn{display:none;background:none;border:1.5px solid var(--craie);color:var(--craie);border-radius:4px;padding:.45rem .7rem;font:inherit;cursor:pointer}
-.theme-btn{background:none;border:1px solid var(--ligne);color:var(--craie);border-radius:4px;width:38px;height:38px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
-@media (max-width:900px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--nuit-2);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
+.theme-switch{display:inline-flex;border:1px solid var(--ligne);border-radius:4px;padding:2px;flex:none} .theme-switch button{background:none;border:0;color:var(--mute);font:inherit;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.4rem .6rem;border-radius:3px;cursor:pointer} .theme-switch button[aria-pressed="true"]{background:var(--craie);color:var(--nuit)}
+@media (max-width:1100px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--nuit-2);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.9rem} .menu-btn{display:inline-block} .header-cta{display:none}}
+.header-cta,.site-nav a{white-space:nowrap}
 /* hero */
 .hero{position:relative;isolation:isolate;min-height:min(88svh,820px);display:flex;align-items:flex-end;padding-block:7rem 4rem;overflow:hidden}
 .hero .bg{position:absolute;inset:0;z-index:-2} .hero .bg img{width:100%;height:100%;object-fit:cover;object-position:84% 42%}
@@ -581,7 +587,7 @@ def render_v2(artifact=False, cfg=None):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/club/logo-blanc.png" alt="" width="42" height="42"><b>{e(S["court"])}</b></a>
-    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
+    <div class="theme-switch" role="group" aria-label="Thème d'affichage"><button type="button" data-set="light" aria-pressed="false">Clair</button><button type="button" data-set="dark" aria-pressed="false">Sombre</button></div>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul>{nav_links()}</ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">1er cours gratuit</a>
@@ -703,14 +709,15 @@ h2{font-size:clamp(2rem,4.2vw,3rem)} h3{font-size:1.3rem} p{margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--blanc)}
 .site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--blanc) 90%,transparent);backdrop-filter:blur(8px)}
 .site-header .wrap{display:flex;align-items:center;gap:1rem;min-height:76px}
-.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--encre);margin-right:auto;font-weight:700;font-size:1.15rem}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--encre);margin-right:auto;font-weight:700;font-size:1.15rem;white-space:nowrap}
 .brand .swallow{width:38px;height:auto;fill:var(--rouge)}
 .site-nav ul{list-style:none;margin:0;padding:.3rem;display:flex;gap:.2rem;background:var(--gris);border-radius:999px}
 .site-nav a{display:block;color:var(--encre);text-decoration:none;font-weight:600;font-size:.92rem;padding:.5rem .9rem;border-radius:999px} .site-nav a:hover{background:var(--blanc)}
 .menu-btn{display:none;background:var(--gris);border:0;color:var(--encre);border-radius:999px;padding:.6rem .95rem;font:inherit;font-weight:700;cursor:pointer}
-.theme-btn{background:var(--gris);border:0;color:var(--encre);border-radius:999px;width:40px;height:40px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
-@media (max-width:960px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--blanc);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
+.theme-switch{display:inline-flex;background:var(--gris);border-radius:999px;padding:3px;flex:none} .theme-switch button{background:none;border:0;color:var(--mute);font:inherit;font-size:.85rem;font-weight:700;padding:.4rem .75rem;border-radius:999px;cursor:pointer} .theme-switch button[aria-pressed="true"]{background:var(--blanc);color:var(--encre);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+@media (max-width:1100px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--blanc);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.2rem;border-radius:var(--r)} .menu-btn{display:inline-block} .header-cta{display:none}}
+.header-cta,.site-nav a{white-space:nowrap}
 /* hero */
 .hero{padding-block:2.5rem 4rem;position:relative;overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
@@ -798,7 +805,7 @@ def render_v3(artifact=False, cfg=None):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top">{SWALLOW}<span>{e(S["court"])}</span></a>
-    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
+    <div class="theme-switch" role="group" aria-label="Thème d'affichage"><button type="button" data-set="light" aria-pressed="false">Clair</button><button type="button" data-set="dark" aria-pressed="false">Sombre</button></div>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul>{nav_links()}</ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">1er cours gratuit</a>

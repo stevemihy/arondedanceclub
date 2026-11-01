@@ -10,18 +10,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
-/* Page d'index neutre : ne favorise aucune des six palettes. */
+/* Page d'index neutre : ne favorise aucune des six palettes. Suit le système, sauf choix explicite (data-theme). */
 :root{--bg:#f4f3f0;--card:#ffffff;--fg:#232323;--fg-2:#555;--mute:#777;--ligne:#e3e1dc;--accent:#232323;--f:"Source Sans 3",system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root{--bg:#161616;--card:#1f1f1f;--fg:#f0eee9;--fg-2:#cfcac2;--mute:#9a958d;--ligne:#2e2c29;--accent:#f0eee9;color-scheme:dark}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161616;--card:#1f1f1f;--fg:#f0eee9;--fg-2:#cfcac2;--mute:#9a958d;--ligne:#2e2c29;--accent:#f0eee9;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161616;--card:#1f1f1f;--fg:#f0eee9;--fg-2:#cfcac2;--mute:#9a958d;--ligne:#2e2c29;--accent:#f0eee9;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f);font-size:1.05rem;line-height:1.55}
 img{max-width:100%;display:block}
 a{color:inherit}
-.wrap{max-width:72rem;margin-inline:auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 0 max(16px,env(safe-area-inset-right,0px))}
-header{padding-block:2.5rem 1.5rem;display:flex;gap:1rem;align-items:center}
+.wrap{max-width:72rem;margin-inline:auto;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+header{padding-block:2.5rem 1.5rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
 header img{width:56px;height:56px;border-radius:50%}
+header .titles{margin-right:auto}
 h1{font-size:clamp(1.6rem,3.5vw,2.3rem);margin:0;line-height:1.1}
 header p{margin:.25rem 0 0;color:var(--mute)}
+.switch{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.switch .lbl{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.switch .seg{display:inline-flex;border:1px solid var(--ligne);border-radius:999px;padding:3px;background:var(--card)}
+.switch button{background:none;border:0;color:var(--mute);font:inherit;font-size:.9rem;font-weight:600;padding:.4rem .85rem;border-radius:999px;cursor:pointer}
+.switch button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+.switch button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .intro{max-width:46em;color:var(--fg-2);margin:0 0 2rem}
 .intro p{margin:0 0 .6rem}
 h2{font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:2.5rem 0 1rem;font-weight:700}
@@ -39,48 +47,57 @@ h2{font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;color:var(--m
 .swatches i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.12)}
 .card .open{margin-top:.6rem;font-weight:700;font-size:.95rem}
 .card .open::after{content:" →"}
+.card .mode{font-size:.8rem;color:var(--mute)}
 footer{margin-top:3.5rem;padding-block:1.5rem 2.5rem;border-top:1px solid var(--ligne);color:var(--mute);font-size:.92rem}
 footer p{margin:.3rem 0}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
   <img src="assets/club/logo-couleurs.png" alt="">
-  <div><h1>Maquettes du nouveau site</h1><p>Aronde Dance Club Couthuin · document de travail</p></div>
+  <div class="titles"><h1>Maquettes du nouveau site</h1><p>Aronde Dance Club Couthuin · document de travail</p></div>
+  <div class="switch"><span class="lbl">Affichage</span>
+    <div class="seg" role="group" aria-label="Thème d'affichage des maquettes">
+      <button type="button" data-mode="auto" aria-pressed="true">Comme dessiné</button>
+      <button type="button" data-mode="light" aria-pressed="false">Clair</button>
+      <button type="button" data-mode="dark" aria-pressed="false">Sombre</button>
+    </div>
+  </div>
 </header>
 
 <div class="intro">
   <p>Six pistes pour la page d'accueil, à comparer. Toutes reprennent <strong>le même contenu</strong> (textes du site actuel, horaires, tarif, professeur, comité, contact) : seule la direction visuelle change.</p>
   <p>Il y a trois mises en page (classique, sombre, conviviale), chacune déclinée en deux palettes : les trois premières s'appuient sur le marine du logo, les trois suivantes explorent d'autres tons. Toute palette peut être combinée avec toute mise en page.</p>
-  <p>Chaque maquette s'ouvre dans le thème pour lequel elle a été dessinée (quatre claires, deux sombres), quel que soit le réglage de votre appareil. Le bouton ◐ en haut de chaque maquette permet de voir l'autre version.</p>
+  <p>Chaque maquette existe en version claire et en version sombre. « Comme dessiné » montre la version pour laquelle chacune a été conçue (quatre claires, deux sombres) ; « Clair » ou « Sombre » force l'autre. Le choix est repris dans chaque maquette, qui a aussi son propre interrupteur.</p>
   <p>Les photos marquées « Photo d'illustration » sont des images libres de droits, à remplacer par des photos du club.</p>
 </div>
 
 <h2>Autour du marine du logo</h2>
 <div class="grid">
-  <a class="card" href="v1-salon.html"><img src="assets/thumbs/v1-salon.jpg" alt="Aperçu de la maquette V1 Salon">
+  <a class="card" href="v1-salon.html" data-v="v1-salon" data-designed="light"><img src="assets/thumbs/v1-salon-light.jpg" alt="Aperçu de la maquette V1 Salon">
     <div class="body"><span class="num">V1 · mise en page classique</span><h3>« Salon »</h3><p>Ivoire chaud, marine et rouge hirondelle, serif classique, photo dans un cadre cintré. Élégant et rassurant.</p>
-    <div class="swatches"><i style="background:#f7f3ea"></i><i style="background:#1b2440"></i><i style="background:#b4262f"></i><i style="background:#c9a96a"></i></div><span class="open">Ouvrir la maquette</span></div></a>
-  <a class="card" href="v2-soiree.html"><img src="assets/thumbs/v2-soiree.jpg" alt="Aperçu de la maquette V2 Soirée">
+    <div class="swatches"><i style="background:#f7f3ea"></i><i style="background:#1b2440"></i><i style="background:#b4262f"></i><i style="background:#c9a96a"></i></div><span class="mode">Dessinée en clair</span><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v2-soiree.html" data-v="v2-soiree" data-designed="dark"><img src="assets/thumbs/v2-soiree-dark.jpg" alt="Aperçu de la maquette V2 Soirée">
     <div class="body"><span class="num">V2 · mise en page sombre</span><h3>« Soirée »</h3><p>Bleu nuit, grand serif de mode, photo plein écran, bandeau défilant des neuf danses. Cinématographique.</p>
-    <div class="swatches"><i style="background:#0d1222"></i><i style="background:#f4efe4"></i><i style="background:#e04752"></i><i style="background:#e2bd7c"></i></div><span class="open">Ouvrir la maquette</span></div></a>
-  <a class="card" href="v3-hirondelle.html"><img src="assets/thumbs/v3-hirondelle.jpg" alt="Aperçu de la maquette V3 Hirondelle">
+    <div class="swatches"><i style="background:#0d1222"></i><i style="background:#f4efe4"></i><i style="background:#e04752"></i><i style="background:#e2bd7c"></i></div><span class="mode">Dessinée en sombre</span><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v3-hirondelle.html" data-v="v3-hirondelle" data-designed="light"><img src="assets/thumbs/v3-hirondelle-light.jpg" alt="Aperçu de la maquette V3 Hirondelle">
     <div class="body"><span class="num">V3 · mise en page conviviale</span><h3>« Hirondelle »</h3><p>Blanc, formes arrondies, rouge franc, pastilles pastel par famille de danse, grande hirondelle. Accueillant et moderne.</p>
-    <div class="swatches"><i style="background:#ffffff"></i><i style="background:#1c2541"></i><i style="background:#d8323c"></i><i style="background:#e3ecfb"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+    <div class="swatches"><i style="background:#ffffff"></i><i style="background:#1c2541"></i><i style="background:#d8323c"></i><i style="background:#e3ecfb"></i></div><span class="mode">Dessinée en clair</span><span class="open">Ouvrir la maquette</span></div></a>
 </div>
 
 <h2>Autres tons</h2>
 <div class="grid">
-  <a class="card" href="v4-bordeaux.html"><img src="assets/thumbs/v4-bordeaux.jpg" alt="Aperçu de la maquette V4 Bordeaux">
+  <a class="card" href="v4-bordeaux.html" data-v="v4-bordeaux" data-designed="light"><img src="assets/thumbs/v4-bordeaux-light.jpg" alt="Aperçu de la maquette V4 Bordeaux">
     <div class="body"><span class="num">V4 · mise en page classique</span><h3>« Bordeaux »</h3><p>Structure de V1 en bordeaux, ivoire rosé et filets or, serif Caslon. Ambiance bal et velours.</p>
-    <div class="swatches"><i style="background:#f9f3ef"></i><i style="background:#5a1420"></i><i style="background:#7a1f2b"></i><i style="background:#b9955a"></i></div><span class="open">Ouvrir la maquette</span></div></a>
-  <a class="card" href="v5-terracotta.html"><img src="assets/thumbs/v5-terracotta.jpg" alt="Aperçu de la maquette V5 Terracotta">
+    <div class="swatches"><i style="background:#f9f3ef"></i><i style="background:#5a1420"></i><i style="background:#7a1f2b"></i><i style="background:#b9955a"></i></div><span class="mode">Dessinée en clair</span><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v5-terracotta.html" data-v="v5-terracotta" data-designed="light"><img src="assets/thumbs/v5-terracotta-light.jpg" alt="Aperçu de la maquette V5 Terracotta">
     <div class="body"><span class="num">V5 · mise en page conviviale</span><h3>« Terracotta »</h3><p>Structure de V3 en terre cuite, sable et olive, pastilles sauge, pêche et moutarde. La plus chaleureuse.</p>
-    <div class="swatches"><i style="background:#f5eee4"></i><i style="background:#c2481f"></i><i style="background:#3b4a2f"></i><i style="background:#f7e7b5"></i></div><span class="open">Ouvrir la maquette</span></div></a>
-  <a class="card" href="v6-prune.html"><img src="assets/thumbs/v6-prune.jpg" alt="Aperçu de la maquette V6 Prune">
+    <div class="swatches"><i style="background:#f5eee4"></i><i style="background:#c2481f"></i><i style="background:#3b4a2f"></i><i style="background:#f7e7b5"></i></div><span class="mode">Dessinée en clair</span><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v6-prune.html" data-v="v6-prune" data-designed="dark"><img src="assets/thumbs/v6-prune-dark.jpg" alt="Aperçu de la maquette V6 Prune">
     <div class="body"><span class="num">V6 · mise en page sombre</span><h3>« Prune »</h3><p>Structure de V2 en prune, framboise et champagne, serif Fraunces. Soirée feutrée.</p>
-    <div class="swatches"><i style="background:#1d1020"></i><i style="background:#f6eef0"></i><i style="background:#e8647a"></i><i style="background:#e9c9a0"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+    <div class="swatches"><i style="background:#1d1020"></i><i style="background:#f6eef0"></i><i style="background:#e8647a"></i><i style="background:#e9c9a0"></i></div><span class="mode">Dessinée en sombre</span><span class="open">Ouvrir la maquette</span></div></a>
 </div>
 
 <footer>
@@ -88,5 +105,26 @@ footer p{margin:.3rem 0}
   <p>Comparatif et proposition détaillée : <a href="https://github.com/stevemihy/arondedanceclub#readme">dépôt du projet</a>. Site actuel : <a href="https://www.arondedanceclub.com/">arondedanceclub.com</a>.</p>
 </footer>
 </div>
+<script>
+(function(){
+  var root=document.documentElement, seg=document.querySelector('.switch .seg'), cards=document.querySelectorAll('.card[data-v]');
+  var LABEL={light:'clair',dark:'sombre'};
+  function apply(mode,save){
+    if(mode!=='light'&&mode!=='dark')mode='auto';
+    if(mode==='auto')root.removeAttribute('data-theme'); else root.setAttribute('data-theme',mode);
+    seg.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mode===mode?'true':'false');});
+    cards.forEach(function(c){
+      var v=c.dataset.v, designed=c.dataset.designed, th=(mode==='auto')?designed:mode;
+      c.querySelector('img').src='assets/thumbs/'+v+'-'+th+'.jpg';
+      c.setAttribute('href', v+'.html'+(mode==='auto'?'':'?theme='+mode));
+      c.querySelector('.mode').textContent=(mode==='auto')?('Dessinée en '+LABEL[designed]):('Affichée en '+LABEL[th]+(th===designed?'':' (dessinée en '+LABEL[designed]+')'));
+    });
+    if(save){try{localStorage.setItem('adc-theme',mode);}catch(e){}}
+  }
+  var st=null; try{st=localStorage.getItem('adc-theme');}catch(e){}
+  apply(st||'auto',false);
+  seg.addEventListener('click',function(ev){var b=ev.target.closest('button[data-mode]');if(b)apply(b.dataset.mode,true);});
+})();
+</script>
 </body>
 </html>
