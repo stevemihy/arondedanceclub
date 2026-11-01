@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -41,6 +41,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .brand img{width:42px;height:42px} .brand b{font-family:var(--f-display);font-size:1.3rem;font-weight:500;letter-spacing:.02em}
 .site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.6rem} .site-nav a{color:var(--craie-2);text-decoration:none;font-weight:600;font-size:.86rem;letter-spacing:.1em;text-transform:uppercase} .site-nav a:hover{color:var(--or)}
 .menu-btn{display:none;background:none;border:1.5px solid var(--craie);color:var(--craie);border-radius:4px;padding:.45rem .7rem;font:inherit;cursor:pointer}
+.theme-btn{background:none;border:1px solid var(--ligne);color:var(--craie);border-radius:4px;width:38px;height:38px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
 @media (max-width:900px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--nuit-2);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.9rem} .menu-btn{display:inline-block} .header-cta{display:none}}
 /* hero */
@@ -130,6 +131,7 @@ footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem} footer a{c
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/club/logo-blanc.png" alt="" width="42" height="42"><b>Aronde Dance Club</b></a>
+    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul><li><a class="" href="#cours">Cours</a></li><li><a class="" href="#professeur">Professeur</a></li><li><a class="" href="#calendrier">Calendrier</a></li><li><a class="" href="#galerie">Galerie</a></li><li><a class="" href="#comite">Le comité</a></li><li><a class="" href="#contact">Contact</a></li></ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">1er cours gratuit</a>
@@ -235,6 +237,8 @@ footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem} footer a{c
   f.addEventListener('submit',function(ev){ev.preventDefault();
     var ok=f.querySelector('.form-ok'); if(!f.checkValidity()){f.reportValidity();return;}
     ok.hidden=false; ok.scrollIntoView({block:'nearest'});});
+  var tb=document.querySelector('.theme-btn');
+  if(tb){tb.addEventListener('click',function(){var r=document.documentElement;var cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');});}
   var b=document.querySelector('.menu-btn'), n=document.querySelector('.site-nav');
   if(b&&n){b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});
     n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false');});});}

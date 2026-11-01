@@ -152,6 +152,8 @@ FORM_JS = '''
   f.addEventListener('submit',function(ev){ev.preventDefault();
     var ok=f.querySelector('.form-ok'); if(!f.checkValidity()){f.reportValidity();return;}
     ok.hidden=false; ok.scrollIntoView({block:'nearest'});});
+  var tb=document.querySelector('.theme-btn');
+  if(tb){tb.addEventListener('click',function(){var r=document.documentElement;var cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');});}
   var b=document.querySelector('.menu-btn'), n=document.querySelector('.site-nav');
   if(b&&n){b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});
     n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false');});});}
@@ -159,7 +161,7 @@ FORM_JS = '''
 </script>'''
 
 
-def wrap(title, fonts, css, body, artifact=False):
+def wrap(title, fonts, css, body, artifact=False, theme="light"):
     head = (f'<title>{e(title)}</title>\n'
             f'<meta name="claude:viewport-fit-sides" content="cover">\n'
             f'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
@@ -167,7 +169,7 @@ def wrap(title, fonts, css, body, artifact=False):
             f'<style>\n{css}\n</style>\n')
     if artifact:
         return head + body + FORM_JS
-    return ('<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n'
+    return (f'<!doctype html>\n<html lang="fr" data-theme="{theme}">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'<meta name="description" content="Maquette — {e(SITE["nom"])}">\n'
             + head + '</head>\n<body>\n' + body + FORM_JS + '\n</body>\n</html>\n')
@@ -251,6 +253,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .brand img{width:44px;height:44px;border-radius:50%} .brand b{font-family:var(--f-display);font-size:1.35rem;font-weight:600;letter-spacing:.01em} .brand small{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.5rem} .site-nav a{color:var(--encre);text-decoration:none;font-weight:600;font-size:.95rem} .site-nav a:hover{color:var(--rouge)}
 .menu-btn{display:none;background:none;border:1.5px solid var(--encre);color:var(--encre);border-radius:8px;padding:.45rem .7rem;font:inherit;cursor:pointer}
+.theme-btn{background:none;border:1.5px solid var(--filet);color:var(--encre);border-radius:999px;width:38px;height:38px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
 @media (max-width:900px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--papier);border-bottom:1px solid var(--filet);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.9rem} .menu-btn{display:inline-block} .header-cta{display:none}}
 /* hero */
@@ -347,6 +350,7 @@ def render_v1(artifact=False, cfg=None):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/club/logo-couleurs.png" alt="" width="44" height="44"><span><b>{e(S["court"])}</b><small>Couthuin · ASBL</small></span></a>
+    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul>{nav_links()}</ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">Premier cours gratuit</a>
@@ -448,7 +452,7 @@ def render_v1(artifact=False, cfg=None):
   <ul>{nav_links()}</ul>
   <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette {e(cfg["label"])}</li></ul>
 </div></footer>'''
-    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact)
+    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact, cfg["theme"])
 
 
 # =========================================================================== V2 — SOIRÉE
@@ -484,6 +488,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .brand img{width:42px;height:42px} .brand b{font-family:var(--f-display);font-size:1.3rem;font-weight:500;letter-spacing:.02em}
 .site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.6rem} .site-nav a{color:var(--craie-2);text-decoration:none;font-weight:600;font-size:.86rem;letter-spacing:.1em;text-transform:uppercase} .site-nav a:hover{color:var(--or)}
 .menu-btn{display:none;background:none;border:1.5px solid var(--craie);color:var(--craie);border-radius:4px;padding:.45rem .7rem;font:inherit;cursor:pointer}
+.theme-btn{background:none;border:1px solid var(--ligne);color:var(--craie);border-radius:4px;width:38px;height:38px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
 @media (max-width:900px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--nuit-2);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.9rem} .menu-btn{display:inline-block} .header-cta{display:none}}
 /* hero */
@@ -576,6 +581,7 @@ def render_v2(artifact=False, cfg=None):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/club/logo-blanc.png" alt="" width="42" height="42"><b>{e(S["court"])}</b></a>
+    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul>{nav_links()}</ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">1er cours gratuit</a>
@@ -664,7 +670,7 @@ def render_v2(artifact=False, cfg=None):
   <ul>{nav_links()}</ul>
   <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette {e(cfg["label"])}</li></ul>
 </div></footer>'''
-    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact)
+    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact, cfg["theme"])
 
 
 # =========================================================================== V3 — HIRONDELLE
@@ -702,6 +708,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .site-nav ul{list-style:none;margin:0;padding:.3rem;display:flex;gap:.2rem;background:var(--gris);border-radius:999px}
 .site-nav a{display:block;color:var(--encre);text-decoration:none;font-weight:600;font-size:.92rem;padding:.5rem .9rem;border-radius:999px} .site-nav a:hover{background:var(--blanc)}
 .menu-btn{display:none;background:var(--gris);border:0;color:var(--encre);border-radius:999px;padding:.6rem .95rem;font:inherit;font-weight:700;cursor:pointer}
+.theme-btn{background:var(--gris);border:0;color:var(--encre);border-radius:999px;width:40px;height:40px;font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;flex:none}
 @media (max-width:960px){.site-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--blanc);border-bottom:1px solid var(--ligne);padding:1rem max(16px,env(safe-area-inset-left,0px)) 1.25rem}
  .site-nav.open{display:block} .site-nav ul{flex-direction:column;gap:.2rem;border-radius:var(--r)} .menu-btn{display:inline-block} .header-cta{display:none}}
 /* hero */
@@ -791,6 +798,7 @@ def render_v3(artifact=False, cfg=None):
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top">{SWALLOW}<span>{e(S["court"])}</span></a>
+    <button class="theme-btn" type="button" aria-label="Basculer entre thème clair et sombre" title="Clair / sombre">◐</button>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="site-nav" id="nav" aria-label="Navigation principale"><ul>{nav_links()}</ul></nav>
     <a class="btn btn-primary header-cta" href="#contact">1er cours gratuit</a>
@@ -881,7 +889,7 @@ def render_v3(artifact=False, cfg=None):
   <ul>{nav_links()}</ul>
   <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette {e(cfg["label"])}</li></ul>
 </div></footer>'''
-    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact)
+    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact, cfg["theme"])
 
 
 
@@ -895,16 +903,16 @@ V1_PAL, V1_LAYOUT = _split(V1_CSS)
 V2_PAL, V2_LAYOUT = _split(V2_CSS)
 V3_PAL, V3_LAYOUT = _split(V3_CSS)
 
-V1_CFG = dict(title="Aronde Dance Club · V1 Salon", label="V1 « Salon »", css=V1_CSS,
+V1_CFG = dict(title="Aronde Dance Club · V1 Salon", label="V1 « Salon »", css=V1_CSS, theme="light",
               fonts="family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600",
               hero="assets/placeholders/cours-groupe.jpg", hero_alt="Des couples de danseurs adultes pendant un cours collectif",
               fig="assets/placeholders/couple-soiree.jpg", fig_alt="Un couple danse lors d'une soirée")
-V2_CFG = dict(title="Aronde Dance Club · V2 Soirée", label="V2 « Soirée »", css=V2_CSS,
+V2_CFG = dict(title="Aronde Dance Club · V2 Soirée", label="V2 « Soirée »", css=V2_CSS, theme="dark",
               fonts="family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Manrope:wght@400;600;700",
               hero="assets/placeholders/valse-bleue.jpg",
               duo1="assets/placeholders/tango-parquet.jpg", duo1_alt="Un couple danse le tango sur un parquet",
               duo2="assets/placeholders/valse-turquoise.jpg", duo2_alt="Un couple en tenue de bal danse une valse")
-V3_CFG = dict(title="Aronde Dance Club · V3 Hirondelle", label="V3 « Hirondelle »", css=V3_CSS,
+V3_CFG = dict(title="Aronde Dance Club · V3 Hirondelle", label="V3 « Hirondelle »", css=V3_CSS, theme="light",
               fonts="family=Outfit:wght@400;600;700;800",
               a="assets/placeholders/cours-groupe.jpg", a_alt="Des couples de danseurs adultes pendant un cours collectif",
               b="assets/placeholders/tango-arcades.jpg", b_alt="Un couple danse le tango sous des arcades",
