@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquettes · Aronde Dance Club</title>
+<meta name="description" content="Six pistes de refonte du site de l'Aronde Dance Club Couthuin, à comparer.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/club/logo-couleurs.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Page d'index neutre : ne favorise aucune des six palettes. */
+:root{--bg:#f4f3f0;--card:#ffffff;--fg:#232323;--fg-2:#555;--mute:#777;--ligne:#e3e1dc;--accent:#232323;--f:"Source Sans 3",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#161616;--card:#1f1f1f;--fg:#f0eee9;--fg-2:#cfcac2;--mute:#9a958d;--ligne:#2e2c29;--accent:#f0eee9;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f);font-size:1.05rem;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:72rem;margin-inline:auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 0 max(16px,env(safe-area-inset-right,0px))}
+header{padding-block:2.5rem 1.5rem;display:flex;gap:1rem;align-items:center}
+header img{width:56px;height:56px;border-radius:50%}
+h1{font-size:clamp(1.6rem,3.5vw,2.3rem);margin:0;line-height:1.1}
+header p{margin:.25rem 0 0;color:var(--mute)}
+.intro{max-width:46em;color:var(--fg-2);margin:0 0 2rem}
+.intro p{margin:0 0 .6rem}
+h2{font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:2.5rem 0 1rem;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--ligne);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(0,0,0,.35)}
+.card:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.card img{aspect-ratio:16/10;object-fit:cover;object-position:top;border-bottom:1px solid var(--ligne)}
+.card .body{padding:1rem 1.1rem 1.2rem;display:grid;gap:.35rem}
+.card .num{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.card h3{margin:0;font-size:1.3rem;line-height:1.2}
+.card p{margin:0;color:var(--fg-2);font-size:.97rem}
+.swatches{display:flex;gap:.35rem;margin-top:.5rem}
+.swatches i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.12)}
+.card .open{margin-top:.6rem;font-weight:700;font-size:.95rem}
+.card .open::after{content:" →"}
+footer{margin-top:3.5rem;padding-block:1.5rem 2.5rem;border-top:1px solid var(--ligne);color:var(--mute);font-size:.92rem}
+footer p{margin:.3rem 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <img src="assets/club/logo-couleurs.png" alt="">
+  <div><h1>Maquettes du nouveau site</h1><p>Aronde Dance Club Couthuin · document de travail</p></div>
+</header>
+
+<div class="intro">
+  <p>Six pistes pour la page d'accueil, à comparer. Toutes reprennent <strong>le même contenu</strong> (textes du site actuel, horaires, tarif, professeur, comité, contact) : seule la direction visuelle change.</p>
+  <p>Il y a trois mises en page (classique, sombre, conviviale), chacune déclinée en deux palettes : les trois premières s'appuient sur le marine du logo, les trois suivantes explorent d'autres tons. Toute palette peut être combinée avec toute mise en page.</p>
+  <p>Les photos marquées « Photo d'illustration » sont des images libres de droits, à remplacer par des photos du club.</p>
+</div>
+
+<h2>Autour du marine du logo</h2>
+<div class="grid">
+  <a class="card" href="v1-salon.html"><img src="assets/thumbs/v1-salon.jpg" alt="Aperçu de la maquette V1 Salon">
+    <div class="body"><span class="num">V1 · mise en page classique</span><h3>« Salon »</h3><p>Ivoire chaud, marine et rouge hirondelle, serif classique, photo dans un cadre cintré. Élégant et rassurant.</p>
+    <div class="swatches"><i style="background:#f7f3ea"></i><i style="background:#1b2440"></i><i style="background:#b4262f"></i><i style="background:#c9a96a"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v2-soiree.html"><img src="assets/thumbs/v2-soiree.jpg" alt="Aperçu de la maquette V2 Soirée">
+    <div class="body"><span class="num">V2 · mise en page sombre</span><h3>« Soirée »</h3><p>Bleu nuit, grand serif de mode, photo plein écran, bandeau défilant des neuf danses. Cinématographique.</p>
+    <div class="swatches"><i style="background:#0d1222"></i><i style="background:#f4efe4"></i><i style="background:#e04752"></i><i style="background:#e2bd7c"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v3-hirondelle.html"><img src="assets/thumbs/v3-hirondelle.jpg" alt="Aperçu de la maquette V3 Hirondelle">
+    <div class="body"><span class="num">V3 · mise en page conviviale</span><h3>« Hirondelle »</h3><p>Blanc, formes arrondies, rouge franc, pastilles pastel par famille de danse, grande hirondelle. Accueillant et moderne.</p>
+    <div class="swatches"><i style="background:#ffffff"></i><i style="background:#1c2541"></i><i style="background:#d8323c"></i><i style="background:#e3ecfb"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+</div>
+
+<h2>Autres tons</h2>
+<div class="grid">
+  <a class="card" href="v4-bordeaux.html"><img src="assets/thumbs/v4-bordeaux.jpg" alt="Aperçu de la maquette V4 Bordeaux">
+    <div class="body"><span class="num">V4 · mise en page classique</span><h3>« Bordeaux »</h3><p>Structure de V1 en bordeaux, ivoire rosé et filets or, serif Caslon. Ambiance bal et velours.</p>
+    <div class="swatches"><i style="background:#f9f3ef"></i><i style="background:#5a1420"></i><i style="background:#7a1f2b"></i><i style="background:#b9955a"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v5-terracotta.html"><img src="assets/thumbs/v5-terracotta.jpg" alt="Aperçu de la maquette V5 Terracotta">
+    <div class="body"><span class="num">V5 · mise en page conviviale</span><h3>« Terracotta »</h3><p>Structure de V3 en terre cuite, sable et olive, pastilles sauge, pêche et moutarde. La plus chaleureuse.</p>
+    <div class="swatches"><i style="background:#f5eee4"></i><i style="background:#c2481f"></i><i style="background:#3b4a2f"></i><i style="background:#f7e7b5"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+  <a class="card" href="v6-prune.html"><img src="assets/thumbs/v6-prune.jpg" alt="Aperçu de la maquette V6 Prune">
+    <div class="body"><span class="num">V6 · mise en page sombre</span><h3>« Prune »</h3><p>Structure de V2 en prune, framboise et champagne, serif Fraunces. Soirée feutrée.</p>
+    <div class="swatches"><i style="background:#1d1020"></i><i style="background:#f6eef0"></i><i style="background:#e8647a"></i><i style="background:#e9c9a0"></i></div><span class="open">Ouvrir la maquette</span></div></a>
+</div>
+
+<footer>
+  <p>Chaque maquette s'adapte au téléphone et au mode sombre du navigateur. Le formulaire de contact est une maquette : l'envoi sera activé sur le site définitif.</p>
+  <p>Comparatif et proposition détaillée : <a href="https://github.com/stevemihy/arondedanceclub#readme">dépôt du projet</a>. Site actuel : <a href="https://www.arondedanceclub.com/">arondedanceclub.com</a>.</p>
+</footer>
+</div>
+</body>
+</html>
