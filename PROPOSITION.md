@@ -25,15 +25,21 @@ Le contenu existant est en revanche sain et suffisant pour une première version
 4. Être irréprochable sur téléphone.
 5. Permettre au comité de mettre à jour calendrier, tarif et photos sans toucher à la mise en page.
 
-## 3. Trois pistes visuelles
+## 3. Six pistes visuelles
 
-Trois maquettes de la page d'accueil ont été réalisées avec le même contenu. Le comparatif détaillé et la recommandation se trouvent dans [`design/COMPARATIF.md`](design/COMPARATIF.md).
+Six maquettes de la page d'accueil ont été réalisées avec le même contenu : trois mises en page, chacune en deux palettes (V1 à V3 autour du marine du logo, V4 à V6 dans d'autres tons). Le comparatif détaillé et la recommandation se trouvent dans [`design/COMPARATIF.md`](design/COMPARATIF.md).
 
 | | V1 « Salon » | V2 « Soirée » | V3 « Hirondelle » |
 |---|---|---|---|
 | Ambiance | Élégante et chaleureuse | Sombre et spectaculaire | Lumineuse et conviviale |
 | Pour qui | Le public actuel du club | Une image très « moderne » | Attirer de nouveaux couples |
 | Recommandation | Choix sûr | À réserver si de belles photos sont disponibles | Alternative si la priorité est le recrutement |
+
+| | V4 « Bordeaux » | V5 « Terracotta » | V6 « Prune » |
+|---|---|---|---|
+| Mise en page | Celle de V1 | Celle de V3 | Celle de V2 |
+| Ambiance | Bal, velours et or | Chaleur méditerranéenne | Soirée feutrée |
+| Recommandation | Alternative chaude à V1 | La plus accueillante | Alternative à V2 sans bleu |
 
 Liens de consultation en ligne : voir la section « Liens » en fin de document (liens privés, à partager depuis le menu Partager de chaque page).
 
@@ -99,8 +105,11 @@ Photos d'illustration sous licence Pexels, listées dans [`design/variants/asset
 
 ## Liens
 
-Les trois maquettes sont consultables en ligne (liens privés, à partager avec le comité) :
+Les six maquettes sont consultables en ligne (liens privés, à partager avec le comité) :
 
 - V1 « Salon » : https://claude.ai/artifact/8nJ9EP3u2ou2s7WCQRPnVB
 - V2 « Soirée » : https://claude.ai/artifact/8UnMc5vrvHWQYMfDCFjBLn
 - V3 « Hirondelle » : https://claude.ai/artifact/CgxzKjyiwkSL64bPmSDPWh
+- V4 « Bordeaux » : https://claude.ai/artifact/8TbkbVTwNQjyooZyzVt5wD
+- V5 « Terracotta » : https://claude.ai/artifact/FfXFMpaJm2HHqDEr3525Cp
+- V6 « Prune » : https://claude.ai/artifact/KWyQ543kqZtrnGLdyRYvRx

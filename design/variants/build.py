@@ -340,7 +340,8 @@ footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem} footer a{co
 '''
 
 
-def render_v1(artifact=False):
+def render_v1(artifact=False, cfg=None):
+    cfg = {**V1_CFG, **(cfg or {})}
     S = SITE
     body = f'''
 <header class="site-header">
@@ -360,7 +361,7 @@ def render_v1(artifact=False):
       <p class="lead">{e(ACCROCHE)} <b>{e(GRATUIT)}</b></p>
       <div class="ctas"><a class="btn btn-primary" href="#cours">Info sur les cours</a><a class="btn btn-ghost" href="#calendrier">Les évènements</a></div>
     </div>
-    <div class="arch"><img src="assets/placeholders/cours-groupe.jpg" alt="Des couples de danseurs adultes pendant un cours collectif"><span class="tag">{e(PLACEHOLDER)}</span></div>
+    <div class="arch"><img src="{cfg["hero"]}" alt="{e(cfg["hero_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></div>
   </div>
 </section>
 <div class="pratique"><div class="wrap">
@@ -377,7 +378,7 @@ def render_v1(artifact=False):
     <p class="sec-head" style="margin:.75rem 0 1.5rem">Le club enseigne la valse lente, la valse viennoise, le tango, le cha-cha, la rumba, le quick step, la samba, le slow fox et le rock.</p>
     {bloc_danses_chips()}
   </div>
-  <figure><img src="assets/placeholders/couple-soiree.jpg" alt="Un couple danse lors d'une soirée"><span class="tag">{e(PLACEHOLDER)}</span></figure>
+  <figure><img src="{cfg["fig"]}" alt="{e(cfg["fig_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></figure>
 </div></section>
 
 <section class="cours" id="cours"><div class="wrap">
@@ -445,10 +446,9 @@ def render_v1(artifact=False):
     <div class="afcd"><img src="assets/club/afcd.png" alt="AFCD"><span>fait partie de l'<a href="{S["afcd"]}" target="_blank" rel="noopener">AFCD</a></span></div>
     {social_slots()}</div>
   <ul>{nav_links()}</ul>
-  <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette V1 « Salon »</li></ul>
+  <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette {e(cfg["label"])}</li></ul>
 </div></footer>'''
-    fonts = "family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600"
-    return wrap("Aronde Dance Club · V1 Salon", fonts, V1_CSS, body, artifact)
+    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact)
 
 
 # =========================================================================== V2 — SOIRÉE
@@ -568,7 +568,8 @@ footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem} footer a{c
 '''
 
 
-def render_v2(artifact=False):
+def render_v2(artifact=False, cfg=None):
+    cfg = {**V2_CFG, **(cfg or {})}
     S = SITE
     danses_marquee = "".join(f'<li>{e(n)}</li>' for n, _ in DANSES) * 2
     body = f'''
@@ -582,7 +583,7 @@ def render_v2(artifact=False):
 </header>
 <main id="top">
 <section class="hero">
-  <div class="bg"><img src="assets/placeholders/valse-bleue.jpg" alt="" aria-hidden="true"></div>
+  <div class="bg"><img src="{cfg["hero"]}" alt="" aria-hidden="true"></div>
   <span class="tag">{e(PLACEHOLDER)}</span>
   <div class="wrap">
     <p class="eyebrow">Danses de salon · Couthuin &amp; Héron · ASBL</p>
@@ -604,8 +605,8 @@ def render_v2(artifact=False):
     {bloc_danses_chips()}
   </div>
   <div class="duo">
-    <figure><img src="assets/placeholders/tango-parquet.jpg" alt="Un couple danse le tango sur un parquet"><span class="tag">{e(PLACEHOLDER)}</span></figure>
-    <figure><img src="assets/placeholders/valse-turquoise.jpg" alt="Un couple en tenue de bal danse une valse"><span class="tag">{e(PLACEHOLDER)}</span></figure>
+    <figure><img src="{cfg["duo1"]}" alt="{e(cfg["duo1_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></figure>
+    <figure><img src="{cfg["duo2"]}" alt="{e(cfg["duo2_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></figure>
   </div>
 </div></section>
 
@@ -661,10 +662,9 @@ def render_v2(artifact=False):
     <div class="afcd"><img src="assets/club/afcd.png" alt="AFCD"><span>fait partie de l'<a href="{S["afcd"]}" target="_blank" rel="noopener">AFCD</a></span></div>
     {social_slots()}</div>
   <ul>{nav_links()}</ul>
-  <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette V2 « Soirée »</li></ul>
+  <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette {e(cfg["label"])}</li></ul>
 </div></footer>'''
-    fonts = "family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Manrope:wght@400;600;700"
-    return wrap("Aronde Dance Club · V2 Soirée", fonts, V2_CSS, body, artifact)
+    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact)
 
 
 # =========================================================================== V3 — HIRONDELLE
@@ -784,7 +784,8 @@ footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem} footer a{c
 '''
 
 
-def render_v3(artifact=False):
+def render_v3(artifact=False, cfg=None):
+    cfg = {**V3_CFG, **(cfg or {})}
     S = SITE
     body = f'''
 <header class="site-header">
@@ -807,9 +808,9 @@ def render_v3(artifact=False):
     </div>
     <div class="collage">
       <span class="sticker">1er cours<br>gratuit</span>
-      <figure class="a"><img src="assets/placeholders/cours-groupe.jpg" alt="Des couples de danseurs adultes pendant un cours collectif"><span class="tag">{e(PLACEHOLDER)}</span></figure>
-      <figure class="b"><img src="assets/placeholders/tango-arcades.jpg" alt="Un couple danse le tango sous des arcades"><span class="tag">{e(PLACEHOLDER)}</span></figure>
-      <figure class="c"><img src="assets/placeholders/couple-soiree.jpg" alt="Un couple danse lors d'une soirée"><span class="tag">{e(PLACEHOLDER)}</span></figure>
+      <figure class="a"><img src="{cfg["a"]}" alt="{e(cfg["a_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></figure>
+      <figure class="b"><img src="{cfg["b"]}" alt="{e(cfg["b_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></figure>
+      <figure class="c"><img src="{cfg["c"]}" alt="{e(cfg["c_alt"])}"><span class="tag">{e(PLACEHOLDER)}</span></figure>
     </div>
   </div>
 </section>
@@ -878,13 +879,111 @@ def render_v3(artifact=False):
     <div class="afcd"><img src="assets/club/afcd.png" alt="AFCD"><span>fait partie de l'<a href="{S["afcd"]}" target="_blank" rel="noopener">AFCD</a></span></div>
     {social_slots()}</div>
   <ul>{nav_links()}</ul>
-  <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette V3 « Hirondelle »</li></ul>
+  <ul><li><a href="#contact">Mentions légales (à rédiger)</a></li><li><a href="{S["maps"]}" target="_blank" rel="noopener">Plan d'accès</a></li><li class="maquette">Maquette {e(cfg["label"])}</li></ul>
 </div></footer>'''
-    fonts = "family=Outfit:wght@400;600;700;800"
-    return wrap("Aronde Dance Club · V3 Hirondelle", fonts, V3_CSS, body, artifact)
+    return wrap(cfg["title"], cfg["fonts"], cfg["css"], body, artifact)
 
 
-VARIANTS = {"v1-salon": render_v1, "v2-soiree": render_v2, "v3-hirondelle": render_v3}
+
+# =========================================================================== configurations & palettes
+def _split(css):
+    """Sépare le bloc de palette (:root + modes sombre/clair) du reste de la feuille."""
+    i = css.index('*{box-sizing:border-box}')
+    return css[:i], css[i:]
+
+V1_PAL, V1_LAYOUT = _split(V1_CSS)
+V2_PAL, V2_LAYOUT = _split(V2_CSS)
+V3_PAL, V3_LAYOUT = _split(V3_CSS)
+
+V1_CFG = dict(title="Aronde Dance Club · V1 Salon", label="V1 « Salon »", css=V1_CSS,
+              fonts="family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600",
+              hero="assets/placeholders/cours-groupe.jpg", hero_alt="Des couples de danseurs adultes pendant un cours collectif",
+              fig="assets/placeholders/couple-soiree.jpg", fig_alt="Un couple danse lors d'une soirée")
+V2_CFG = dict(title="Aronde Dance Club · V2 Soirée", label="V2 « Soirée »", css=V2_CSS,
+              fonts="family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Manrope:wght@400;600;700",
+              hero="assets/placeholders/valse-bleue.jpg",
+              duo1="assets/placeholders/tango-parquet.jpg", duo1_alt="Un couple danse le tango sur un parquet",
+              duo2="assets/placeholders/valse-turquoise.jpg", duo2_alt="Un couple en tenue de bal danse une valse")
+V3_CFG = dict(title="Aronde Dance Club · V3 Hirondelle", label="V3 « Hirondelle »", css=V3_CSS,
+              fonts="family=Outfit:wght@400;600;700;800",
+              a="assets/placeholders/cours-groupe.jpg", a_alt="Des couples de danseurs adultes pendant un cours collectif",
+              b="assets/placeholders/tango-arcades.jpg", b_alt="Un couple danse le tango sous des arcades",
+              c="assets/placeholders/couple-soiree.jpg", c_alt="Un couple danse lors d'une soirée")
+
+# --- V4 « Bordeaux » : structure de V1, palette vin / ivoire rosé / or, serif Caslon
+V4_PAL = r"""
+/* Layout : programme de bal (structure V1) — palette bordeaux, ivoire rosé et or. */
+:root{
+  --ivoire:#f9f3ef; --papier:#fffaf7; --encre:#3a1218; --encre-2:#5a2a31; --mute:#7a565c;
+  --rouge:#7a1f2b; --rouge-fonce:#5c141f; --or:#b9955a; --filet:#e6d7d2; --marine:#5a1420; --marine-2:#6b1a28;
+  --sur-marine:#f9f3ef; --ombre:0 18px 40px -24px rgba(58,18,24,.45);
+  --f-display:"Libre Caslon Text",Georgia,"Times New Roman",serif; --f-body:"Nunito Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ivoire:#1d1114; --papier:#261619; --encre:#f3e9e6; --encre-2:#d9c7c3; --mute:#ad9598; --rouge:#d9737f; --rouge-fonce:#c25663;
+  --or:#c9a96a; --filet:#3b262a; --marine:#14090b; --marine-2:#1e0f12; --sur-marine:#f3e9e6; --ombre:0 18px 40px -24px rgba(0,0,0,.8); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --ivoire:#1d1114; --papier:#261619; --encre:#f3e9e6; --encre-2:#d9c7c3; --mute:#ad9598; --rouge:#d9737f; --rouge-fonce:#c25663;
+  --or:#c9a96a; --filet:#3b262a; --marine:#14090b; --marine-2:#1e0f12; --sur-marine:#f3e9e6; --ombre:0 18px 40px -24px rgba(0,0,0,.8); color-scheme:dark }
+"""
+V4_CSS = V4_PAL + V1_LAYOUT.replace('rgba(247,243,234,.18)', 'rgba(249,243,239,.2)').replace('rgba(27,36,64,.72)', 'rgba(58,18,24,.72)')
+V4_CFG = dict(V1_CFG, title="Aronde Dance Club · V4 Bordeaux", label="V4 « Bordeaux »", css=V4_CSS,
+              fonts="family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:wght@400;600;700",
+              hero="assets/placeholders/tango-rouge.jpg", hero_alt="Un couple danse le tango, robe rouge",
+              fig="assets/placeholders/cours-groupe.jpg", fig_alt="Des couples de danseurs adultes pendant un cours collectif")
+
+# --- V5 « Terracotta » : structure de V3, palette terre cuite / sable / olive, sans-serif Plus Jakarta
+V5_PAL = r"""
+/* Layout : club de quartier (structure V3) — palette terre cuite, sable et olive. */
+:root{
+  --blanc:#fffdf9; --gris:#f5eee4; --encre:#2b2420; --encre-2:#564a43; --mute:#6b5e55; --rouge:#c2481f; --rouge-2:#a53a17; --marine:#3b4a2f;
+  --std:#e4ead8; --std-ink:#2f4a23; --lat:#ffe3d1; --lat-ink:#8a3a12; --rk:#f7e7b5; --rk-ink:#6a4f00; --ligne:#e8ddd0; --r:22px;
+  --f:"Plus Jakarta Sans",system-ui,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --blanc:#1c1715; --gris:#272019; --encre:#f4ebe3; --encre-2:#d8cbc0; --mute:#a89a8e; --rouge:#e8734a; --rouge-2:#d85f36; --marine:#141a10;
+  --std:#2c3a24; --std-ink:#cfe0bd; --lat:#4a2a1b; --lat-ink:#ffcfb3; --rk:#4a3f14; --rk-ink:#ffe28a; --ligne:#3a302a; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --blanc:#1c1715; --gris:#272019; --encre:#f4ebe3; --encre-2:#d8cbc0; --mute:#a89a8e; --rouge:#e8734a; --rouge-2:#d85f36; --marine:#141a10;
+  --std:#2c3a24; --std-ink:#cfe0bd; --lat:#4a2a1b; --lat-ink:#ffcfb3; --rk:#4a3f14; --rk-ink:#ffe28a; --ligne:#3a302a; color-scheme:dark }
+"""
+V5_CSS = V5_PAL + V3_LAYOUT.replace('rgba(28,37,65,.7)', 'rgba(43,36,32,.7)')
+V5_CFG = dict(V3_CFG, title="Aronde Dance Club · V5 Terracotta", label="V5 « Terracotta »", css=V5_CSS,
+              fonts="family=Plus+Jakarta+Sans:wght@400;600;700;800",
+              a="assets/placeholders/tango-arcades.jpg", a_alt="Un couple danse le tango sous des arcades",
+              b="assets/placeholders/tango-rouge.jpg", b_alt="Un couple danse le tango, robe rouge",
+              c="assets/placeholders/cours-groupe.jpg", c_alt="Des couples de danseurs adultes pendant un cours collectif")
+
+# --- V6 « Prune » : structure de V2, palette prune / framboise / champagne, serif Fraunces
+V6_PAL = r"""
+/* Layout : piste de nuit (structure V2) — palette prune, framboise et champagne. */
+:root{
+  --nuit:#1d1020; --nuit-2:#261529; --carte:#2e1a32; --craie:#f6eef0; --craie-2:#d9c9cf; --mute:#a894a0;
+  --rouge:#e8647a; --rouge-btn:#b8324f; --or:#e9c9a0; --ligne:rgba(246,238,240,.12);
+  --voile:linear-gradient(90deg,rgba(29,16,32,.82) 0%,rgba(29,16,32,.45) 45%,rgba(29,16,32,.15) 100%),linear-gradient(180deg,rgba(29,16,32,.15) 0%,rgba(29,16,32,.35) 60%,#1d1020 100%);
+  --f-display:"Fraunces","Playfair Display",Georgia,serif; --f-body:"Figtree",system-ui,sans-serif; color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --nuit:#faf3f5; --nuit-2:#f1e4e9; --carte:#ffffff; --craie:#2a1530; --craie-2:#4d3552; --mute:#6f5a72; --rouge:#a9244a; --rouge-btn:#a9244a; --or:#8a6a3a; --ligne:rgba(42,21,48,.14);
+  --voile:linear-gradient(90deg,rgba(250,243,245,.9) 0%,rgba(250,243,245,.7) 45%,rgba(250,243,245,.3) 100%),linear-gradient(180deg,rgba(250,243,245,.2) 0%,rgba(250,243,245,.5) 60%,#faf3f5 100%); color-scheme:light } }
+:root[data-theme="light"]{
+  --nuit:#faf3f5; --nuit-2:#f1e4e9; --carte:#ffffff; --craie:#2a1530; --craie-2:#4d3552; --mute:#6f5a72; --rouge:#a9244a; --rouge-btn:#a9244a; --or:#8a6a3a; --ligne:rgba(42,21,48,.14);
+  --voile:linear-gradient(90deg,rgba(250,243,245,.9) 0%,rgba(250,243,245,.7) 45%,rgba(250,243,245,.3) 100%),linear-gradient(180deg,rgba(250,243,245,.2) 0%,rgba(250,243,245,.5) 60%,#faf3f5 100%); color-scheme:light }
+"""
+V6_CSS = (V6_PAL + V2_LAYOUT.replace('rgba(13,18,34,.6)', 'rgba(29,16,32,.6)').replace('rgba(13,18,34,.65)', 'rgba(29,16,32,.65)')
+          .replace('rgba(224,71,82,.35)', 'rgba(232,100,122,.35)').replace('#f4efe4', '#f6eef0')
+          .replace('object-position:84% 42%', 'object-position:70% 35%'))
+V6_CFG = dict(V2_CFG, title="Aronde Dance Club · V6 Prune", label="V6 « Prune »", css=V6_CSS,
+              fonts="family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Figtree:wght@400;600;700",
+              hero="assets/placeholders/tango-parquet.jpg",
+              duo1="assets/placeholders/tango-rouge.jpg", duo1_alt="Un couple danse le tango, robe rouge",
+              duo2="assets/placeholders/couple-soiree.jpg", duo2_alt="Un couple danse lors d'une soirée")
+
+
+VARIANTS = {"v1-salon": render_v1, "v2-soiree": render_v2, "v3-hirondelle": render_v3,
+            "v4-bordeaux": lambda a=False: render_v1(a, V4_CFG),
+            "v5-terracotta": lambda a=False: render_v3(a, V5_CFG),
+            "v6-prune": lambda a=False: render_v2(a, V6_CFG)}
 
 if __name__ == "__main__":
     art_dir = None
