@@ -105,7 +105,9 @@ Photos d'illustration sous licence Pexels, listées dans [`design/variants/asset
 
 ## Liens
 
-Les six maquettes sont consultables en ligne (liens privés, à partager avec le comité) :
+**Page d'accès aux six maquettes (lien public, à transmettre au comité) : https://stevemihy.github.io/arondedanceclub/**
+
+Liens individuels sur claude.ai (privés, pour commentaires) :
 
 - V1 « Salon » : https://claude.ai/artifact/8nJ9EP3u2ou2s7WCQRPnVB
 - V2 « Soirée » : https://claude.ai/artifact/8UnMc5vrvHWQYMfDCFjBLn

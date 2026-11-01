@@ -9,6 +9,8 @@ Projet de refonte de [arondedanceclub.com](https://www.arondedanceclub.com/).
 
 ## Maquettes
 
+En ligne : https://stevemihy.github.io/arondedanceclub/ (publié automatiquement par GitHub Pages à chaque push sur `main`, voir `.github/workflows/pages.yml`).
+
 ```sh
 cd design/variants
 python3 build.py          # régénère v1-salon.html … v6-prune.html
