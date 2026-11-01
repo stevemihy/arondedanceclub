@@ -215,7 +215,7 @@ def bloc_danses_chips(with_family_class=True):
 V1_CSS = r'''
 /* Layout : programme de bal — colonne centrée, cadres cintrés, filets doubles, bandeau marine. */
 :root{
-  --ivoire:#f7f3ea; --papier:#fffdf8; --encre:#1b2440; --encre-2:#3a4260; --mute:#6b7087;
+  --ivoire:#f7f3ea; --papier:#fffdf8; --encre:#1b2440; --encre-2:#3a4260; --mute:#5c6280;
   --rouge:#b4262f; --rouge-fonce:#8f1d25; --or:#c9a96a; --filet:#dcd3c0; --marine:#1b2440; --marine-2:#243055;
   --sur-marine:#f7f3ea; --ombre:0 18px 40px -24px rgba(27,36,64,.45);
   --f-display:"Cormorant Garamond",Georgia,"Times New Roman",serif; --f-body:"Source Sans 3","Source Sans Pro",system-ui,sans-serif;
@@ -671,7 +671,7 @@ def render_v2(artifact=False):
 V3_CSS = r'''
 /* Layout : club de quartier, lumineux — hero scindé avec collage, grandes formes arrondies, pastilles colorées par famille, hirondelle en motif. */
 :root{
-  --blanc:#ffffff; --gris:#f3f4f8; --encre:#1c2541; --encre-2:#454d6b; --mute:#737a94; --rouge:#d8323c; --rouge-2:#b7262f; --marine:#1c2541;
+  --blanc:#ffffff; --gris:#f3f4f8; --encre:#1c2541; --encre-2:#454d6b; --mute:#616884; --rouge:#d8323c; --rouge-2:#b7262f; --marine:#1c2541;
   --std:#e3ecfb; --std-ink:#1f3f7a; --lat:#ffe6dd; --lat-ink:#9a3415; --rk:#fff3c9; --rk-ink:#7a5a00; --ligne:#e2e5ee; --r:22px;
   --f:"Outfit",system-ui,"Segoe UI",sans-serif;
 }
